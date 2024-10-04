@@ -1,0 +1,18 @@
+---
+import Nav from "@/components/partials/Nav.astro"
+import "@pagefind/default-ui/css/ui.css"
+import Logo from "./Logo.astro"
+
+const { container_max_w } = Astro.props
+---
+
+<!-- <header
+	class="py-5 md:top-5 top-0 fixed rounded-3xl dark:bg-dark/70 bg-white/70 backdrop-blur-lg self-center w-full max-w-full md:max-w-5xl z-50"
+>
+	<div
+		class:list={`${container_max_w ?? "max-w-6xl"} container mx-auto px-5 flex items-center justify-between`}
+	>
+		<Logo />
+	</div>
+</header> -->
+<Nav />

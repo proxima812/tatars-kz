@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+	overflow-y: auto;
+	color-scheme: light;
+	scroll-padding-top: 100px;
+}
+
+html.dark {
+	color-scheme: dark;
+}
+
+/* ::selection{
+
+} */
+
+/* [data-theme='dark'] ::selection {
+  background-color: #000
+} */
+
+@layer base {
+	.prose-tatar ul li::marker,
+	.prose-tatar ol li::marker {
+		@apply text-red-500;
+	}
+
+	.prose-tatar table {
+		@apply w-auto mx-auto text-left table-auto;
+	}
+	.prose-tatar tr {
+		@apply border-b border-zinc-400;
+	}
+	.prose-tatar th,
+	.prose-tatar td {
+		@apply p-3;
+	}
+	.prose-tatar td {
+		@apply align-baseline;
+	}
+
+	.prose-tatar {
+		/* Тексты и парагрфы */
+		@apply prose-strong:tracking-tight dark:prose-invert prose-lg prose-zinc prose prose-a:no-underline;
+		/* Картинки и изображения */
+		@apply prose-img:mx-auto prose-img:rounded-xl prose-img:object-cover;
+		/* Чисто по текстам */
+		@apply leading-relaxed;
+		/* Ширина */
+		@apply max-w-none;
+	}
+}
+
+@layer utilities {
+	.animate {
+		@apply -translate-y-3 opacity-0;
+		@apply transition-all duration-300 ease-out;
+	}
+
+	.animate.show {
+		@apply translate-y-0 opacity-100;
+	}
+}
+
+.animate-text {
+	animation: bg-hue 10s linear infinite;
+}
+@keyframes bg-hue {
+	100% {
+		filter: hue-rotate(360deg);
+	}
+}
+
+.grow {
+	animation: grow 1s ease-in-out;
+	animation-delay: 0.3s;
+}
+
+@keyframes grow {
+	0% {
+		opacity: 0.6;
+		width: 0;
+	}
+
+	to {
+		opacity: 1;
+		width: 100%;
+	}
+}

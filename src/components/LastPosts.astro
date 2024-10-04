@@ -1,0 +1,13 @@
+---
+import { getCollection } from "astro:content"
+import Post from "./Post/Post.astro"
+
+const posts = (await getCollection("posts"))
+	.filter(({ data }) => (import.meta.env.PROD ? data.draft !== true : true))
+	.sort((a, b) => +new Date(b.data.datePublished) - +new Date(a.data.datePublished))
+	.slice(0, 3)
+---
+
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+	{posts && posts.map(post => <Post data={post.data} slug={post.slug} />)}
+</section>

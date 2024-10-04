@@ -1,0 +1,51 @@
+---
+import Footer from "@/components/partials/Footer.astro"
+import Header from "@/components/partials/Header.astro"
+import SEOHead from "@/components/SEOHead.astro"
+import ProviderTheme from "@/components/Theme/ProviderTheme.astro"
+
+import "@/styles/tailwind.css"
+
+const {
+	datePublished,
+	dateModified,
+	noIndex,
+	name,
+	author,
+	title,
+	type,
+	description,
+	ogImage,
+	locale,
+	container_max_w = "max-w-5xl",
+	canonicalURL = new URL(Astro.url.pathname, Astro.site),
+} = Astro.props
+---
+
+<html lang="ru" class="scroll-smooth">
+	<head>
+		<SEOHead
+			noIndex={noIndex}
+			title={title}
+			description={description}
+			type={type}
+			ogImage={ogImage}
+			datePublished={datePublished}
+			dateModified={dateModified}
+		/>
+		<ProviderTheme />
+	</head>
+	<body
+		class="font-sans flex min-h-screen flex-col dark:text-white dark:bg-dark text-zinc-900 bg-[#fafafa]"
+	>
+		<Header container_max_w="max-w-5xl" />
+		<main
+			class:list={`${container_max_w ?? "max-w-6xl"} mt-12 container mx-auto flex-1 px-5`}
+		>
+			<div class="flex flex-col gap-12 py-12">
+				<slot />
+			</div>
+		</main>
+		<Footer container_max_w="max-w-5xl" />
+	</body>
+</html>

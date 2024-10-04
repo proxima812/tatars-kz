@@ -1,0 +1,72 @@
+---
+import { getImage } from "astro:assets"
+const { images } = Astro.props
+const imageAssets = await Promise.all(
+	images.map(async image => {
+		if (image) {
+			return await getImage({
+				src: image.src,
+				alt: image.alt,
+				inferSize: true,
+				width: "3840",
+				decoding: "async",
+				format: "avif",
+				loading: "lazy",
+			})
+		}
+		return null
+	}),
+)
+---
+
+<div class="masonry not-prose">
+	{
+		imageAssets.map(imageAsset =>
+			imageAsset ? (
+				<div class="image-container" id="gallery">
+					<a href={imageAsset.src} class="image-link glightbox">
+						<img
+							src={imageAsset.src}
+							alt={imageAsset.attributes.alt}
+							loading={imageAsset.attributes.loading}
+							decoding={imageAsset.attributes.decoding}
+							width={imageAsset.attributes.width}
+							height={imageAsset.attributes.height}
+							class="image"
+						/>
+					</a>
+				</div>
+			) : null,
+		)
+	}
+</div>
+<style>
+	.masonry {
+		column-count: 1;
+		column-gap: 1em;
+	}
+
+	@media (min-width: 600px) {
+		.masonry {
+			column-count: 4;
+		}
+	}
+
+	.image-container {
+		break-inside: avoid;
+		margin-bottom: 0.5rem;
+	}
+
+	.image-link {
+		display: inline-block;
+		margin: 0;
+		padding: 0;
+	}
+
+	.image {
+		display: block;
+		margin: 0;
+		padding: 0;
+	}
+</style>
+<script src="../../utils/lightbox.js"></script>

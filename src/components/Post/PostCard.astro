@@ -1,0 +1,64 @@
+---
+import { Icon } from "astro-icon/components"
+import { Image } from "astro:assets"
+import Date from "../Date.astro"
+
+const { slug, data } = Astro.props
+
+const blockIconStyle =
+	" p-1.5 block text-lg bg-gradient-to-r dark:from-green-300 from-green-200 dark:to-green-200 to-green-100 rounded-md text-green-500 dark:text-green-600"
+---
+
+<article class="p-4 md:p-8 rounded-2xl dark:bg-dark bg-white flex md:flex-row flex-col gap-6 items-center">
+	<div class="flex flex-col gap-4">
+		<a
+			href={`/posts/${slug}`}
+			class="hover:text-green-900 self-start transition-colors duration-75 ease-linear"
+			aria-label={`Пост: ${data.title}`}
+		>
+			<h2 class="text-3xl font-bold">{data.title}</h2></a
+		>
+		<section
+			class="flex items-center flex-wrap gap-4"
+			aria-label="Категории, теги и время публикации"
+		>
+			<Date blockIconStyle={blockIconStyle} data={data} aria-label="Время публикации" />
+			<div aria-label="Категория" class="flex items-center gap-2 text-sm">
+				<span class={blockIconStyle}>
+					<Icon name="material-symbols:tag-rounded" />
+				</span>
+				{
+					data.category &&
+						data.category.length > 0 &&
+						data.category.map(category => (
+							<a href={`/archive/category/${category}`}>{category}</a>
+						))
+				}
+			</div>
+			<div aria-label="Теги" class="flex items-center gap-2 text-sm">
+				<span class={blockIconStyle}>
+					<Icon name="material-symbols:tag-rounded" />
+				</span>
+				{
+					data.tags &&
+						data.tags.length > 0 &&
+						data.tags.map((tag, i) => (
+            <div class:list={[{"hidden": i == 0}, "mx-0.5 text-sm"]}>/</div>
+            <a href={`/archive/tag/${tag}`}>{tag}</a>))
+				}
+			</div>
+		</section>
+		<p class="leading-relaxed dark:text-zinc-300 text-zinc-600 line-clamp-2">
+			{data.description}
+		</p>
+	</div>
+	{
+		data.ogImage && (
+			<Image
+				class="w-full md:w-[310px] md:order-1 -order-1 h-[210px] md:h-[160px] object-cover rounded-xl"
+				src={data.ogImage}
+				alt=""
+			/>
+		)
+	}
+</article>

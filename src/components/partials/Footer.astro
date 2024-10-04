@@ -1,0 +1,67 @@
+---
+import { resources } from "@/data/allLinks"
+import { getCollection } from "astro:content"
+import Logo from "./Logo.astro"
+
+import { config } from "@/settings"
+
+const posts = await getCollection("posts")
+
+const { container_max_w } = Astro.props
+
+const pagesLinks = await getCollection("pages")
+
+const a_text_style =
+	"text-white/80 hover:text-white/100 transition-transform hover:translate-x-1 ease-linear"
+---
+
+<footer class="bg-zinc-900 text-white rounded-t-[25px] md:rounded-t-[45px]">
+	<div class:list={`${container_max_w ?? "max-w-6xl"} container mx-auto px-5 `}>
+		<div class="py-12 flex md:flex-nowrap flex-wrap justify-between gap-12 md:gap-24">
+			<div>
+				<Logo />
+				<p class="mt-2 text-sm">{config.site.footer_description}</p>
+			</div>
+
+			<div class="flex flex-col gap-3 shrink-0" aria-label="Полезные ресурсы">
+				<span class="text-lg font-medium">Ресурсы</span>
+				{
+					resources &&
+						resources.map(link => (
+							<a href={link.href} class={`${a_text_style}`}>
+								{link.label}
+							</a>
+						))
+				}
+			</div>
+
+			<div class="flex flex-col gap-3 shrink-0" aria-label="Полезные ресурсы">
+				<span class="text-lg font-medium">Внешние ресурсы</span>
+				{
+					resources &&
+						resources.map(link => (
+							<a href={link.href} class={`${a_text_style}`}>
+								{link.label}
+							</a>
+						))
+				}
+			</div>
+		</div>
+	</div>
+
+	<div class="bg-zinc-950 py-6">
+		<div class:list={`${container_max_w ?? "max-w-6xl"} container mx-auto px-5 `}>
+			<div class="flex justify-between flex-wrap gap-3 items-center">
+				<span>{new Date().getFullYear()} <b>tatars.kz</b></span>
+				{
+					pagesLinks &&
+						pagesLinks.map(page => (
+							<a href={`/${page.slug}`} class={`${a_text_style}`}>
+								{page.data.title}
+							</a>
+						))
+				}
+			</div>
+		</div>
+	</div>
+</footer>

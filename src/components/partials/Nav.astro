@@ -1,0 +1,120 @@
+---
+import { Icon } from "astro-icon/components"
+import ToggleTheme from "../Theme/ToggleTheme.astro"
+import { links } from "@/data/allLinks"
+import Logo from "./Logo.astro"
+import Search from '../Search.astro'
+
+const a_class_link =
+	"flex items-center gap-1 text-zinc-600 hover:text-zinc-800 transition-colors duration-75 esea-linear"
+---
+
+<div
+	class="body_close fixed hidden bg-zinc-900/70 backdrop-blur-md min-h-full h-screen max-w-full inset-0"
+>
+</div>
+
+<div class="relative z-50">
+	<div
+		class="p-5 
+     bg-white/70 backdrop-blur-md dark:bg-dark fixed top-0 md:top-5 left-1/2 -translate-x-1/2 w-full md:max-w-2xl rounded-b-3xl md:rounded-3xl gap-6 mx-auto flex items-center justify-between"
+	>
+		<Logo />
+
+		<div class="flex gap-1">
+			<button
+				aria-label="Открыть меню"
+				role="button"
+				id="openMenu"
+				class="text-lg dark:bg-white text-white bg-zinc-800 dark:text-zinc-800 px-3 h-[38px] rounded-xl"
+			>
+				<span class="sr-only">Меню</span>
+				<div class="flex items-center gap-1">
+					<span class="text-base">меню</span>
+					<Icon name="mdi:menu-open" />
+				</div>
+			</button>
+			<ToggleTheme />
+      <Search />
+		</div>
+		<nav
+			id="mobileMenu"
+			class="hidden border p-5 top-[84px] rounded-3xl absolute bg-white w-full left-0 z-20"
+		>
+			<div class="grid w-full gap-5 md:gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+				<div class="flex flex-col gap-3" aria-label="Все страницы сайта">
+					<span class="font-bold" id="span">Страницы</span>
+					{
+						links &&
+							links.map(link => (
+								<a id="li" href={link.href} class={a_class_link}>
+									<Icon name={link.mdi} />
+									{link.label}
+								</a>
+							))
+					}
+				</div>
+				<div class="flex flex-col gap-3" aria-label="Все страницы сайта">
+					<span class="font-bold" id="span">Страницы</span>
+					{
+						links &&
+							links.map(link => (
+								<a id="li" href={link.href} class={a_class_link}>
+									<Icon name={link.mdi} />
+									{link.label}
+								</a>
+							))
+					}
+				</div>
+				<div class="flex flex-col gap-3" aria-label="Все страницы сайта">
+					<span class="font-bold" id="span">Страницы</span>
+					{
+						links &&
+							links.map(link => (
+								<a id="li" href={link.href} class={a_class_link}>
+									<Icon name={link.mdi} />
+									{link.label}
+								</a>
+							))
+					}
+				</div>
+			</div>
+		</nav>
+	</div>
+</div>
+
+<script>
+	import { animate, spring, stagger } from "motion"
+
+	document.addEventListener("astro:page-load", () => {
+		const openMenu = document.querySelector("#openMenu")
+		const closeMenu = document.querySelector("#closeMenu")
+		const menu = document.querySelector("#mobileMenu")
+		const html = document.querySelector("html")
+		const body_close = document.querySelector(".body_close")
+
+		const toggleMenu = () => {
+			menu.classList.toggle("hidden")
+			animate(
+				"#mobileMenu",
+				{ y: ["-100%", "0"], opacity: [0, 1] },
+				{ duration: 0.1, easing: spring({ velocity: 1000 }) },
+			)
+
+			menu.classList.toggle("flex")
+			html.classList.toggle("overflow-hidden")
+			body_close.classList.toggle("hidden")
+			animate(".body_close", { opacity: [0, 1] }, { duration: 0.6, easing: "linear" })
+			animate("#li", { y: ["-6px", "0"], opacity: [0, 1] }, { delay: stagger(0.1) })
+			animate("#span", { x: ["-6px", "0"], opacity: [0, 1] }, { delay: stagger(0.4) })
+		}
+
+		openMenu.addEventListener("click", toggleMenu)
+		closeMenu.addEventListener("click", toggleMenu)
+	})
+
+	document.addEventListener("astro:after-swap", () => {
+		document.querySelector("#openMenu").addEventListener("click", toggleMenu)
+		document.querySelector("#closeMenu").addEventListener("click", toggleMenu)
+	})
+</script>

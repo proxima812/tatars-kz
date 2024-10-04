@@ -1,0 +1,121 @@
+---
+import { Image, Picture } from "astro:assets"
+import Date from "../Date.astro"
+import A from "../mdx/a.astro"
+import Blockquote from "../mdx/blockquote.astro"
+import Img from "../mdx/img.astro"
+import Table from "../mdx/Table.astro"
+import TelegramComments from "../widgets/TelegramComments.astro"
+import SocialShare from "./SocialShare.astro"
+const { post, data } = Astro.props
+const { Content } = await post.render()
+---
+
+<main class="mt-12">
+	<aside class="flex md:flex-row items-center flex-col gap-12 mb-12">
+		{
+			post.data.ogImage && (
+				<Image
+					format="webp"
+					quality={30}
+					class="rounded-xl object-cover max-w-full md:w-[430px] h-[285px]"
+					src={post.data.ogImage}
+					alt={post.data.title ?? ""}
+				/>
+			)
+		}
+		<div class="flex flex-col gap-6">
+			<h1 class="text-4xl font-bold tracking-tighter">{post.data.title}</h1>
+			<div class="flex items-center gap-4">
+				{
+					post.data.ogImage ? (
+						<Image
+							class="rounded-full w-10 h-10 object-cover"
+							src={post.data.ogImage}
+							alt={"Автор поста"}
+						/>
+					) : (
+						""
+					)
+				}
+				<Date class="" data={post.data} />
+			</div>
+		</div>
+	</aside>
+
+	<article class="prose-tatar">
+		<Content
+			components={{
+				a: A,
+				table: Table,
+				img: Img,
+				picture: Picture,
+				blockquote: Blockquote,
+			}}
+		/>
+	</article>
+
+	<SocialShare data={data} />
+	<TelegramComments data={data} />
+
+	<!-- <aside>{headings.length > 0 && <TableOfContent headings={headings} />}</aside> -->
+</main>
+
+<!-- https://github.com/rough-stuff/rough-notation -->
+
+<!-- <script>
+	import { annotate, annotationGroup } from "rough-notation"
+	const notions = document.querySelectorAll("strong")
+	const annotations = new Array(notions.length).fill(0).map((_, index) => {
+		const node = notions[index] as HTMLSpanElement
+		const type = node.dataset.notionType
+		const color = node.dataset.notionColor
+		const strokeWidth = node.dataset.notionStrokewidth
+		return annotate(node, {
+			type: (type as "underline") ?? "underline",
+			color: color ?? "red",
+			: false,
+			multiline: type === "bracket" ? false : true,
+			brackets: ["left", "right"],
+			strokeWidth: Number(strokeWidth) ?? 1.5,
+		})
+	})
+	annotationGroup(annotations).show()
+</script> -->
+
+<!-- <script async is:inline>
+	const anchors = document.querySelectorAll(".prose h2[id], .prose h3[id]")
+	const links = document.querySelectorAll("nav.toc ul li a")
+
+	function observeToc() {
+		if (
+			typeof anchors != "undefined" &&
+			anchors != null &&
+			typeof links != "undefined" &&
+			links != null
+		) {
+			let scrollTop = window.scrollY
+
+			// highlight the last scrolled-to: set everything inactive first
+			for (const link of links) {
+				link.classList.add("border-transparent", "text-inherit")
+				link.classList.remove("bg-zinc-800", "text-zinc-300")
+			}
+			// then iterate backwards, on the first match highlight it and break
+			for (var i = anchors.length - 1; i >= 0; i--) {
+				if (scrollTop > anchors[i].offsetTop - 80) {
+					links[i].classList.remove("border-transparent", "text-inherit")
+					links[i].classList.add("bg-zinc-800", "text-zinc-300")
+					break
+				}
+			}
+		}
+	}
+
+	window.addEventListener("scroll", event => {
+		observeToc(event)
+	})
+	window.addEventListener("hashchange", event => {
+		observeToc(event)
+	})
+</script> -->

@@ -1,0 +1,124 @@
+---
+import MainHeading from "@/components/partials/MainHeading.astro"
+import NewMaterils from "@/components/widgets/NewMaterials.astro"
+import MainLayout from "@/layouts/MainLayout.astro"
+
+import { Image } from "astro:assets"
+import img from "../assets/images/5.jpg"
+---
+
+<MainLayout title="" description="">
+	<div class="mt-[98px]">
+		<MainHeading />
+
+		<!-- <div
+			class="-z-[1] blur-2xl absolute inset-0 w-[100px] h-full bg-gradient-to-t to-green-100 from-transparent"
+		>
+		</div> -->
+
+				<NewMaterils />
+
+	</div>
+
+	<!-- <div class="">
+		<Section
+			style="background:linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(110,223,54,0.2931766456582633) 100%);"
+		>
+			Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam alias blanditiis
+			mollitia nulla ea sint non distinctio harum laborum! Sapiente excepturi, sunt
+			exercitationem pariatur quos doloribus similique aut quaerat harum?</Section
+		>
+		<Section
+			style="background:linear-gradient(0deg, rgba(114,82,214,0.528470763305322) 0%, rgba(110,223,54,0.2931766456582633) 100%);"
+		>
+			Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam alias blanditiis
+			mollitia nulla ea sint non distinctio harum laborum! Sapiente excepturi, sunt
+			exercitationem pariatur quos doloribus similique aut quaerat harum?</Section
+		>
+		<Section
+			style="background:linear-gradient(0deg, rgba(114,82,214,0.528470763305322) 0%, rgba(110,223,54,0.2931766456582633) 100%);"
+		>
+			Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam alias blanditiis
+			mollitia nulla ea sint non distinctio harum laborum! Sapiente excepturi, sunt
+			exercitationem pariatur quos doloribus similique aut quaerat harum?</Section
+		>
+		<Section
+			style="background:linear-gradient(180deg, rgba(114,82,214,0.528470763305322) 0%, rgba(223,54,144,0.2931766456582633) 100%);"
+		>
+			Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam alias blanditiis
+			mollitia nulla ea sint non distinctio harum laborum! Sapiente excepturi, sunt
+			exercitationem pariatur quos doloribus similique aut quaerat harum?</Section
+		>
+	</div> -->
+
+	<!-- <SectionWrapper icon="mdi:abacus" iconName="text">
+		<h2 class="text-3xl font-bold" slot="h2">
+			It all starts with your important events.
+		</h2>
+		<p class="leading-relaxed" slot="p">
+			We have made it easy to integrate and track your important events in just a few
+			minutes and start seeing them update in realtime.
+		</p>
+		<Image
+			src={image}
+			class="mx-auto object-cover md:max-w-2xl shadow-2xl rounded-t-2xl md:rounded-t-none rounded-b-2xl"
+			alt=""
+			slot="image"
+			format="avif"
+		/>
+	</SectionWrapper> -->
+
+	<!-- <section class="max-w-3xl mx-auto h-screen">
+		<h2 class="opacity-0 font-black text-5xl text-center mb-6">
+			Lorem ipsum dolor sit amet consectetur adipisicing elit
+		</h2>
+
+		<Image
+			class="opacity-0 max-w-full h-[460px] rounded-xl object-cover"
+			src={img}
+			alt=""
+		/>
+		<script>
+			import { animate, inView } from "motion"
+
+			const animateSections = () => {
+				inView(
+					"section img",
+					info => {
+						animate(
+							info.target,
+							{ opacity: [1] },
+							{ duration: 1, easing: [0.17, 0.55, 0.55, 1] },
+						)
+					},
+					{ margin: "-50% 0px" },
+				)
+
+				inView(
+					"section h2",
+					info => {
+						animate(
+							info.target,
+							{ opacity: [1], y: [0] }, // Добавляем появление и движение
+							{ duration: 1, easing: [0.17, 0.55, 0.55, 1] },
+						)
+					},
+					{ margin: "-50% 0px" },
+				)
+			}
+
+			// Запуск анимации при загрузке страницы
+			document.addEventListener("astro:load-page", () => {
+				animateSections()
+			})
+
+			// Запуск анимации после полной загрузки страницы или смены контента
+			document.addEventListener("astro:after-swap", () => {
+				animateSections()
+			})
+
+			// Также запускаем анимацию на первой загрузке
+			animateSections()
+		</script>
+	</section> -->
+</MainLayout>

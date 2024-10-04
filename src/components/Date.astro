@@ -1,0 +1,31 @@
+---
+import { formatDate } from "@/utils/libs/formatDate"
+import { Icon } from "astro-icon/components"
+
+const { data, blockIconStyle, class: className, props } = Astro.props
+---
+
+<div class:list={`${className ? className : ""} flex items-center gap-2 `} {...props}>
+	<span class={blockIconStyle}>
+		<Icon name="material-symbols:calendar-today-outline-rounded" />
+	</span>
+	<div class="flex flex-col">
+		<span class={`${data.dateModified ? "text-xs" : "text-sm"}`}>
+			<time datetime={data.datePublished} aria-label="Время публикации">
+				{formatDate(data.datePublished)}
+			</time>
+		</span>
+		{
+			data.dateModified && (
+				<span class={`${data.dateModified ? "text-xs" : "text-sm"}`}>
+					<>
+						<b>Изменено: </b>
+						<time aria-label="Время изменения" datetime={data.dateModified}>
+							{formatDate(data.dateModified)}
+						</time>
+					</>
+				</span>
+			)
+		}
+	</div>
+</div>

@@ -1,0 +1,19 @@
+---
+import MainLayout from "@/layouts/MainLayout.astro"
+import { getCollection } from "astro:content"
+
+export async function getStaticPaths() {
+	const pages = await getCollection("pages")
+	return pages.map(page => ({
+		params: { page: page.slug },
+		props: page,
+	}))
+}
+
+const page = Astro.props
+const { Content } = await page.render()
+---
+
+<MainLayout {...page.data} ogImage={page.data.ogImage?.src}>
+	<main class="mt-12"><article class="my-prose"><Content /></article></main>
+</MainLayout>

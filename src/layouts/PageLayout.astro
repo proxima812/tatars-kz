@@ -1,0 +1,13 @@
+---
+import MainLayout from "./MainLayout.astro"
+
+const { title, description } = Astro.props
+---
+
+<MainLayout title={title} descriptin={description}>
+	<section class="p-12 bg-red-100 rounded-md mt-12">
+		<h1 class="text-5xl font-black tracking-tighter">Посты</h1>
+	</section>
+
+	<slot />
+</MainLayout>

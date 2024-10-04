@@ -1,0 +1,14 @@
+---
+import { Icon } from "astro-icon/components"
+
+const { props, href } = Astro.props
+---
+
+<a
+	href={href}
+	{...props}
+	class:list={`hover:pl-0.5 text-green-950 hover:text-green-600 transition-all duration-75 ease-linear dark:text-green-500 inline-flex items-center gap-1`}
+>
+	<Icon name="ic:sharp-insert-link" />
+	<span class="border-b-2 border-green-400 hover:border-green-500"> <slot /></span>
+</a>

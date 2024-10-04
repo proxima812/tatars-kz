@@ -1,0 +1,45 @@
+---
+import { Icon } from "astro-icon/components"
+
+import { getPostsDate } from "@/utils/getPostsDate"
+
+const lastPost = await getPostsDate("posts")
+---
+
+<aside class="flex mt-12 justify-center flex-wrap items-center gap-3">
+	{
+		lastPost.slice(0, 1).map(post => (
+			<a
+				href={`/posts/${post.slug}`}
+				aria-label="Новый пост"
+				class="relative 
+         bg-white px-4 text-zinc-700 dark:text-zinc-300 dark:bg-dark py-2.5 rounded-2xl flex items-center gap-2 hover:bg-zinc-200 duration-75 ease-linear transition-colors hover:text-zinc-800 hover:dark:bg-zinc-700"
+			>
+				<Icon name="ic:baseline-folder-special" />
+				<span>Новый пост</span>
+				<div class="absolute top-[1px] right-[2px]">
+					<div class="absolute animate-ping  h-2 w-2 rounded-full dark:bg-green-100 bg-green-200" />
+					<div class="h-2 top-[3px] -left-[3px] w-2 rounded-full bg-green-400" />
+				</div>
+			</a>
+		))
+	}
+	<!--  -->
+	<a
+		href={``}
+		aria-label=""
+		class="relative 
+     bg-white px-4 text-zinc-700 dark:text-zinc-300 dark:bg-dark py-2.5 rounded-2xl flex items-center gap-2 hover:bg-zinc-200 duration-75 ease-linear transition-colors hover:text-zinc-800 hover:dark:bg-zinc-700"
+	>
+		<Icon name="ic:baseline-folder-special" />
+		<span>Новый материал</span>
+		<div class="absolute top-[1px] right-[2px]">
+			<div
+				class="absolute animate-ping h-2 w-2 rounded-full dark:bg-green-100 bg-green-200"
+			>
+			</div>
+			<div class="h-2 top-[3px] -left-[3px] w-2 rounded-full bg-green-400"></div>
+		</div>
+	</a>
+	<!---  -->
+</aside>

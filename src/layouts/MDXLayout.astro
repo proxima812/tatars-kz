@@ -1,0 +1,11 @@
+---
+import MainLayout from "./MainLayout.astro"
+const { frontmatter } = Astro.props
+---
+
+<MainLayout {...frontmatter} ogImage={frontmatter.ogImage}>
+	<main class="mt-12 prose dark:prose-invert text-balance max-w-none prose-lg leading-7">
+		<h1>{frontmatter.title}</h1>
+		<slot />
+	</main>
+</MainLayout>

@@ -1,0 +1,168 @@
+---
+import "@pagefind/default-ui/css/ui.css"
+---
+
+<site-search id="search">
+	<button
+		data-open-modal
+		disabled
+		class="text-lg justify-center w-[38px] h-[38px] rounded-xl items-center hidden group-aria-pressed:flex bg-gradient-to-tl from-amber-600 to-yellow-500"
+	>
+		<span class="search-icon">🔍</span>
+		<!-- <span class="search-label">Search</span> -->
+	</button>
+	<dialog aria-label="search">
+		<div class="dialog-frame">
+			<button data-close-modal>Закрыть</button>
+			{
+				import.meta.env.DEV ? (
+					<div>
+						<p class="text-red-500">Не работает в DEV моде поиск!</p>
+					</div>
+				) : (
+					<div class="search-container">
+						<div id="pagefind__search" />
+					</div>
+				)
+			}
+		</div>
+	</dialog>
+</site-search>
+
+<script>
+	class SiteSearch extends HTMLElement {
+		constructor() {
+			super()
+			const openBtn = this.querySelector<HTMLButtonElement>("button[data-open-modal]")!
+			const closeBtn = this.querySelector<HTMLButtonElement>("button[data-close-modal]")!
+			const dialog = this.querySelector("dialog")!
+			const dialogFrame = this.querySelector(".dialog-frame")!
+
+			const onWindowClick = (event: MouseEvent) => {
+				if (
+					document.body.contains(event.target as Node) &&
+					!dialogFrame.contains(event.target as Node)
+				)
+					closeModal()
+			}
+			const handleEscKey = (e: KeyboardEvent) => {
+				if (e.key === "Escape" && dialog.open) {
+					closeModal()
+					window.removeEventListener("keydown", handleEscKey)
+				} else return
+			}
+			const openModal = (event?: MouseEvent) => {
+				dialog.showModal()
+				dialog.style.opacity = "1"
+				document.body.classList.add("overflow-hidden")
+				this.querySelector("input")?.focus()
+				event?.stopPropagation()
+				window.addEventListener("click", onWindowClick)
+				window.addEventListener("keydown", handleEscKey)
+			}
+
+			const closeModal = () => {
+				dialog.close()
+				dialog.style.opacity = "0"
+				document.body.classList.remove("overflow-hidden")
+				window.removeEventListener("click", onWindowClick)
+				window.addEventListener("keydown", handleEscKey)
+			}
+
+			openBtn.addEventListener("click", openModal)
+			openBtn.disabled = false
+			closeBtn.addEventListener("click", closeModal)
+			document.addEventListener("astro:after-swap", closeModal)
+
+			window.addEventListener("keydown", e => {
+				if (e.key === "/" && !dialog.open) {
+					openModal()
+					e.preventDefault()
+				}
+			})
+
+			window.addEventListener("DOMContentLoaded", () => {
+				if (import.meta.env.DEV) return
+				const onIdle = window.requestIdleCallback || (cb => setTimeout(cb, 1))
+				onIdle(async () => {
+					// @ts-ignore
+					const { PagefindUI } = await import("@pagefind/default-ui")
+					new PagefindUI({
+						element: "#pagefind__search",
+						baseUrl: import.meta.env.BASE_URL,
+						bundlePath: import.meta.env.BASE_URL.replace(/\/$/, "") + "/pagefind/",
+						showImages: false,
+					})
+				})
+			})
+		}
+	}
+
+	customElements.define("site-search", SiteSearch)
+</script>
+
+<style is:global>
+	:root {
+		--pagefind-ui-scale: 1;
+		--pagefind-ui-primary: #034ad8;
+		--pagefind-ui-text: #111;
+		--pagefind-ui-background: #ffffff;
+		/* Границы */
+		--pagefind-ui-border: #efefef;
+		--pagefind-ui-tag: #eeeeee;
+		--pagefind-ui-border-width: 1px;
+		--pagefind-ui-border-radius: 6px;
+		--pagefind-ui-image-border-radius: 6px;
+		--pagefind-ui-image-box-ratio: 3 / 2;
+	}
+
+	.pagefind-ui__search-input.svelte-e9gkc3 {
+		font-size: 16px !important;
+  }
+
+	.dialog-frame {
+		padding: 1rem;
+		background-color: #fff;
+		border-radius: 6px;
+		color: white;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	button[data-close-modal] {
+		background-color: #eee;
+		color: white;
+		border-radius: 6px;
+		color: #111;
+		border: none;
+		padding: 0.5rem 1rem;
+		cursor: pointer;
+		align-self: flex-end;
+	}
+
+	button[data-open-modal] {
+		border: none;
+		cursor: pointer;
+		display: flex;
+		justify-items: center;
+		align-items: center;
+		color: white;
+		font-size: 1rem;
+	}
+
+	input[type="search"] {
+		padding: 0.5rem;
+		border: 1px solid #555;
+		border-radius: 0.25rem;
+		background-color: #2a2a2a;
+		color: white;
+		width: 100%;
+	}
+
+	.search-container {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+</style>

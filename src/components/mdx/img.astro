@@ -1,0 +1,19 @@
+---
+import { Image } from "astro:assets"
+
+const { src, alt } = Astro.props
+---
+
+<div class="flex flex-col gap-2 text-center">
+	<Image
+		class="max-w-full bg-no-repeat bg-center object-cover w-[520px] h-[320px] rounded-xl mx-auto overflow-clip not-prose"
+		quality={"low"}
+		format="avif"
+		src={src}
+		alt={alt ?? "Описание изображеня"}
+	/>
+	<span
+		class="mx-auto w-full md:w-[520px] dark:text-white text-zinc-600 dark:bg-dark bg-white rounded-xl py-2 px-3 font-normal text-sm"
+		>{alt ?? "Описание изображеня"}</span
+	>
+</div>

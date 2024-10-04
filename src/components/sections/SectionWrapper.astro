@@ -1,0 +1,23 @@
+---
+import { Icon } from "astro-icon/components"
+
+const { label, icon, iconName } = Astro.props
+---
+
+<section aria-label={label} class="mx-auto w-full max-w-3xl">
+	<div class="p-6 bg-zinc-100 rounded-2xl border">
+		<div aria-label="Иконка" class="flex justify-center mb-6 items-center gap-3">
+			<div
+				class="h-10 w-10 bg-zinc-950 rounded-2xl text-xl flex items-center justify-center text-white"
+			>
+				<Icon name={icon} />
+			</div>
+			<!-- <span class="text-xl font-medium">{iconName}</span> -->
+		</div>
+		<footer class="text-center flex flex-col gap-3">
+			<slot name="h2" />
+			<slot name="p" />
+		</footer>
+	</div>
+	<slot name="image" />
+</section>

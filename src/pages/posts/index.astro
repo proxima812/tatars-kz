@@ -1,0 +1,17 @@
+---
+import Post from "@/components/Post/Post.astro"
+import MainLayout from "@/layouts/MainLayout.astro"
+import PageLayout from '@/layouts/PageLayout.astro'
+
+import { getCollection } from "astro:content"
+
+const posts = (await getCollection("posts"))
+	.filter(({ data }) => (import.meta.env.PROD ? data.draft !== true : true))
+	.sort((a, b) => +new Date(b.data.datePublished) - +new Date(a.data.datePublished))
+---
+
+<MainLayout title="" description="">
+	<section class="mt-12 columns-1 md:colunms-2 lg:columns-3 gap-6">
+		{posts && posts.map(post => <Post data={post.data} slug={post.slug} />)}
+	</section>
+</MainLayout>

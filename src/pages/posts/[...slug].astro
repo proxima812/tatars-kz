@@ -1,0 +1,27 @@
+---
+import ContentWrapper from "@/components/Post/ContentWrapper.astro"
+import MainLayout from "@/layouts/MainLayout.astro"
+import { getCollection } from "astro:content"
+
+export async function getStaticPaths() {
+	const posts = await getCollection("posts")
+	return posts.map(post => ({
+		params: { slug: post.slug },
+		props: post,
+	}))
+}
+const post = Astro.props
+
+// import '@/styles/glightbox.css'
+---
+
+<MainLayout
+	container_max_w="max-w-4xl"
+	{...post.data}
+	type
+	ogImage={post.data.ogImage?.src}
+>
+	<ContentWrapper post={post} data={post.data} />
+
+
+</MainLayout>

@@ -1,0 +1,54 @@
+---
+import { Icon } from "astro-icon/components"
+const { data } = Astro.props
+---
+
+<aside
+	class="sm:mx-0 -mx-5 text-balance p-3 md:p-6 flex flex-col gap-4 dark:bg-dark bg-white rounded-xl mt-6"
+>
+	<h2 class="text-xl leading-none font-medium flex items-center gap-2">
+		<Icon name="mdi:chat" />Можете оставлять ваши комментарии
+	</h2>
+	<p class="inline-flex flex-wrap gap-1 text-lg">
+		Либо же напрямую на нашем канале в текущей дискусии <a
+			target="_blank"
+			class="dark:text-blue-300 text-blue-500 flex items-center gap-1 font-medium"
+			rel="noopener"
+			href={`https://t.me/${data.discussionNameChannel ?? "t.me/tatars_kz"}/${data.discussion_id}`}
+			><Icon name="mdi:telegram" />{
+				`${data.discussionNameChannel ?? "t.me/tatars_kz"}/${data.discussion_id}`
+			}
+		</a>
+	</p>
+	<!-- 
+	<script is:inline>
+		document.addEventListener("astro:page-load", () => {
+			function updateTelegramWidget() {
+				const scriptElement = document.querySelector("#telega")
+				const isDarkMode =
+					window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+
+				if (scriptElement) {
+					if (isDarkMode) {
+						scriptElement.setAttribute("data-dark", "1")
+					} else {
+						scriptElement.removeAttribute("data-dark")
+					}
+				}
+			}
+			updateTelegramWidget()
+			document.addEventListener("astro:after-swap", updateTelegramWidget)
+		})
+	</script> -->
+
+	<script
+		is:inline
+		id="telega"
+		async
+		src="https://telegram.org/js/telegram-widget.js?22"
+		data-telegram-discussion={`${data.discussionNameChannel ?? "tatars_kz"}/${data.discussion_id}`}
+		data-comments-limit="5"
+		data-height={data.height}
+		data-colorful="1"
+		data-color={data.color}></script>
+</aside>
